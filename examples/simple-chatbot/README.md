@@ -65,6 +65,7 @@ print(ai_response)
 ## Next Steps
 
 - Add voice input with [whisper.cpp](https://github.com/ggerganov/whisper.cpp)
+     - Whisper is a port from OpenAI but, all audio processing occurs locally (CPU on the Pi). No data collection and no data is used for training however, use common sense in your ecosystem to protect your privacy and security to prevent any third party modifications of the port functionality.
 - Create a web interface with the [web-chatbot example](../web-chatbot/)
 - Fine-tune a model on your conversations with [fine-tuning example](../fine-tuning/)
 
