@@ -1,6 +1,6 @@
 # Contributing to Smart Factory PiAI
 
-First off, thank you for considering contributing to PiAI! It's people like you that make this project valuable for the entire community.
+First off, thank you for considering contributing to PiAI. It's people like you that make this project valuable for the entire community. The Smart Factory team will review contributions with the caveat that not everything will make it into the project and, some ideas may spawn thier own projects. Any commercial development projects are managed by Smart Factory through our software development department known as the Lab. If you have a commerical project and would like our help, contact us by visiting https://smartfactory.io 
 
 ## How Can I Contribute?
 
