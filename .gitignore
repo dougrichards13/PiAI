@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# AI Models and Cache
+.ollama/
+.cache/
+*.gguf
+*.bin
+*.safetensors
+*.pth
+*.pt
+models/
+*.onnx
+
+# Logs
+*.log
+nohup.out
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Environment
+.env
+.env.local
+*.env
+
+# Conversation logs
+conversation_*.txt
+
+# Temporary files
+tmp/
+temp/
+*.tmp
