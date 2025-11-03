@@ -8,6 +8,8 @@
 
 *A production-ready AI toolkit for the Raspberry Pi 5, brought to you by [Smart Factory](https://smartfactory.io)*
 
+**NOTICE: This project is still in beta-testing. There is a good chance that if it works it won't work great. We will remove this notice label when the testing is successsful. Until then the bug log will be empty (i.e. we will only track bugs post release).**
+
 ---
 
 ## 🎯 What is PiAI?
@@ -214,7 +216,7 @@ We believe AI should be:
 
 **Project Author:** Doug Richards, Executive Chairman, Smart Factory  
 **License:** MIT (free for any use)  
-**Version:** 1.0  
+**Version:** 0.13 (pre-release) 
 **Last Updated:** November 2025
 
 ### Acknowledgments
