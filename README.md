@@ -14,6 +14,8 @@
 
 **Smart Factory PiAI** is a comprehensive, privacy-first AI development environment for the Raspberry Pi 5. We've "resurfaced" the Pi—optimizing it specifically for running, experimenting with, and fine-tuning AI models entirely on-device.
 
+DISCLAIMER: This project is an experiment. This project is also not groundbreaking, there are literally dozens of Pi gurus on YouTube like the infamous Jeff Geerling @JeffGeerling, Network Chuck @NetworkChuck, Data Slayer @dataslayermedia, MichaelKlements @MichaelKelments, the team at @CoreElectronics and so many more. This particular project is a bit self-serving since I wanted a way to easily resurface a Pi 5 with an AI top for my own tests and pet projects. I also really enjoy documenting projects like this so - yes, it is overkill but hey, I had fun building it! (Doug Richards)
+
 ### Why PiAI?
 
 ✅ **100% Local** - All AI processing on your device, zero cloud dependency  
@@ -76,19 +78,25 @@ Installation takes 20-40 minutes depending on your internet speed.
 
 ## 💡 What Can You Build?
 
-### Example Projects
+As mentioned above, there are so many cool projects you can build with a PiAI machine. Some are practical like a video doorbell or a smarter version of a Pihole. I strongly recommend looking at the YouTube channels and their project repos and hubs for inspiration and fun. Here are some of the tings I am working on. Links will be updated when the projects get are beta-ready.
+
+### Future Projects
 
 1. **[Personal AI Assistant](https://github.com/dougrichards13/PiAI-personal-assistant)** *(Coming Soon)*  
-   Voice-controlled AI that runs entirely on your Pi
+   Voice-controlled AI that runs entirely on your Pi. There are a lot of cool things you can do with voice on a Pi and plenty of open-source libraries to support the build. We are currently looking at how to potentially offline the model and employ user patterns (via voice and gamification) to truly personlize the assistant in a meaningful way - in other words, no one needs another weather bot or personal shopper.
    
-2. **[Smart Camera with Object Detection](https://github.com/dougrichards13/PiAI-object-detection)** *(Coming Soon)*  
-   Real-time object detection using the Hailo AI HAT
+2. **[Smart Camera with Object Detection] ** *(Coming Soon)*  
+   Real-time object detection using the Hailo AI HAT. 
+
+   If you've tried the Pi AI Camera you'll know that this is already out of the box functionality. The Lab is working on training to specific scenarios - for example pairing PiAI with IoT and edge devices for alerts in physical spaces
    
-3. **[Document Q&A Chatbot](https://github.com/dougrichards13/PiAI-rag-chatbot)** *(Coming Soon)*  
-   Answer questions about your personal documents
+3. **[Document Q&A Chatbot]** *(Coming Soon)*  
+   Answer questions about your personal documents. This is actually built, we just need to test the security and privacy more throughly. This project will be a vertical agent that runs invisibly as a subset of the Assistant suite. 
    
 4. **[Custom Model Fine-Tuning](https://github.com/dougrichards13/PiAI-fine-tuning)** *(Coming Soon)*  
-   Train AI on your writing style or domain knowledge
+   Train AI on your writing style or domain knowledge.
+
+   Again, this is already part of several popular LLMs but, the gap is how to correct the model easily via the interface verbablly/input versus programatically.
 
 ---
 
@@ -185,7 +193,7 @@ Built something cool? We'd love to see it!
 
 ## 🏭 About Smart Factory
 
-[**Smart Factory**](https://smartfactory.io) is pioneering the future of intelligent manufacturing and edge AI. This project demonstrates our expertise in privacy-preserving AI systems and production-ready edge deployments.
+[**Smart Factory**](https://smartfactory.io) is pioneering the future of human/machine work with our AI Synthesizer workforce. This project and the other open-book Lab projects demonstrates our expertise in privacy-preserving AI systems and production-ready edge deployments.
 
 **Our Mission:** Democratize AI technology—making it accessible, private, and practical for real-world applications.
 
@@ -195,10 +203,10 @@ We believe AI should be:
 - **Accessible** - Anyone can run powerful AI on affordable hardware
 - **Private** - Your data belongs to you, not in the cloud
 - **Practical** - Real solutions for real problems
-- **Open** - Free software for everyone
+- **Fun** - AI is amazingly powerful and fun to work with and should be available to all levels of technical users
 
 **Interested in Smart Factory for your business?**  
-[Contact us](https://smartfactory.io/contact) to learn about our enterprise AI solutions.
+[Visit](https://smartfactory.io) to learn about our enterprise AI solutions.
 
 ---
 
