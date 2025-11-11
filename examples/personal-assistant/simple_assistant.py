@@ -18,6 +18,8 @@ import json
 import subprocess
 import pyaudio
 import requests
+import wave
+import audioop
 from datetime import datetime
 from pathlib import Path
 
@@ -127,24 +129,33 @@ class SimpleAssistant:
         """Listen and transcribe speech with Vosk"""
         print("\n[LISTENING] Speak now... (5 seconds)")
         
+        # Use 48kHz (what the mic supports) and resample to 16kHz for Vosk
+        mic_rate = 48000
+        vosk_rate = 16000
+        
         stream = self.audio.open(
             format=pyaudio.paInt16,
             channels=1,
-            rate=16000,
+            rate=mic_rate,  # Use mic's native rate
             input=True,
             input_device_index=self.mic_index,
-            frames_per_buffer=4000
+            frames_per_buffer=4800  # 0.1 second at 48kHz
         )
         
         stream.start_stream()
         
         # Record for 5 seconds
-        frames_to_capture = int(16000 / 4000 * 5)  # 5 seconds
+        frames_to_capture = int(mic_rate / 4800 * 5)  # 5 seconds
         
         for _ in range(frames_to_capture):
-            data = stream.read(4000, exception_on_overflow=False)
+            data = stream.read(4800, exception_on_overflow=False)
             
-            if self.recognizer.AcceptWaveform(data):
+            # Resample from 48kHz to 16kHz for Vosk
+            resampled_data, _ = audioop.ratecv(
+                data, 2, 1, mic_rate, vosk_rate, None
+            )
+            
+            if self.recognizer.AcceptWaveform(resampled_data):
                 result = json.loads(self.recognizer.Result())
                 text = result.get('text', '')
                 if text:
@@ -160,7 +171,7 @@ class SimpleAssistant:
         stream.close()
         
         # Reset recognizer for next use
-        self.recognizer = KaldiRecognizer(self.vosk_model, 16000)
+        self.recognizer = KaldiRecognizer(self.vosk_model, vosk_rate)
         
         return text if text else None
     
