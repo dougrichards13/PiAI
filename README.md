@@ -8,7 +8,7 @@
 
 *A production-ready AI toolkit for the Raspberry Pi 5, brought to you by [Smart Factory](https://smartfactory.io)*
 
-**NOTICE: This project is still in beta-testing. There is a good chance that if it works it won't work great. We will remove this notice label when the testing is successsful. Until then the bug log will be empty (i.e. we will only track bugs post release).**
+**UPDATE (November 2025):** Initial testing successful on Raspberry Pi 5 (8GB). Installation script validated and working. We're now expanding hardware testing - if you try this on different hardware (Pi 4, other ARM64 systems), please share your results in [Discussions](https://github.com/dougrichards13/PiAI/discussions)!
 
 ---
 
@@ -58,9 +58,10 @@ chmod +x scripts/install.sh
 ./scripts/install.sh
 
 # Test your setup
-./ai-helper.sh status
-./ai-helper.sh pull phi3:mini
-./ai-helper.sh run phi3:mini
+~/ai-helper.sh status
+~/system-tune.sh diagnose  # Optional: detailed system diagnostics
+~/ai-helper.sh pull phi3:mini
+~/ai-helper.sh run phi3:mini
 ```
 
 Installation takes 20-40 minutes depending on your internet speed.
@@ -111,7 +112,9 @@ As mentioned above, there are so many cool projects you can build with a PiAI ma
 - **PyTorch** - Deep learning framework
 - **Transformers** - Hugging Face model library
 - **PEFT** - Parameter-efficient fine-tuning (LoRA)
-- **Helper Scripts** - Easy system management
+- **Helper Scripts** - Easy system management and diagnostics
+  - `ai-helper.sh` - AI model management
+  - `system-tune.sh` - System diagnostics and performance tuning
 
 ### Hardware Requirements
 
@@ -216,8 +219,21 @@ We believe AI should be:
 
 **Project Author:** Doug Richards, Executive Chairman, Smart Factory  
 **License:** MIT (free for any use)  
-**Version:** 0.13 (pre-release) 
+**Version:** 0.14 (beta) 
 **Last Updated:** November 2025
+
+### Changelog
+
+**v0.14 (November 2025)**
+- ✅ Validated installation on Raspberry Pi 5 (8GB)
+- Added disk space check (20GB minimum)
+- Added temperature monitoring during install
+- Improved error recovery for llama.cpp builds
+- Modified HuggingFace offline mode (disabled by default for initial setup)
+- Enhanced system diagnostics
+
+**v0.13 (November 2025)**
+- Initial release
 
 ### Acknowledgments
 

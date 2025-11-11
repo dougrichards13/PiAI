@@ -59,6 +59,27 @@ check_system() {
         print_warning "Less than 8GB RAM detected. Some models may not work well."
     fi
     
+    # Check disk space (need at least 20GB free)
+    available_space=$(df -BG "$HOME" | awk 'NR==2 {print $4}' | sed 's/G//')
+    if [ "$available_space" -lt 20 ]; then
+        print_error "Insufficient disk space. Need 20GB free, found ${available_space}GB"
+        exit 1
+    fi
+    
+    # Check temperature if vcgencmd available
+    if command -v vcgencmd &> /dev/null; then
+        temp=$(vcgencmd measure_temp | grep -oP '\d+\.\d+' || echo "0")
+        temp_int=${temp%.*}
+        if [ "$temp_int" -gt 75 ]; then
+            print_warning "System temperature is high (${temp}°C). Consider cooling before install."
+            echo -e "${YELLOW}Continue anyway? (y/N)${NC}"
+            read -r response
+            if [[ ! "$response" =~ ^[Yy]$ ]]; then
+                exit 0
+            fi
+        fi
+    fi
+    
     print_success "System check completed"
 }
 
@@ -118,11 +139,13 @@ export HF_HUB_DISABLE_TELEMETRY=1
 export HF_HOME=$HOME/.cache/huggingface
 export HF_DATASETS_CACHE=$HOME/.cache/huggingface/datasets
 export TRANSFORMERS_CACHE=$HOME/.cache/huggingface/transformers
-export HF_HUB_OFFLINE=1
-export TRANSFORMERS_OFFLINE=1
+# Note: Offline mode disabled by default to allow initial model downloads
+# Uncomment these lines after downloading models if you want full offline operation:
+# export HF_HUB_OFFLINE=1
+# export TRANSFORMERS_OFFLINE=1
 EOF
     
-    print_success "Hugging Face privacy configured"
+    print_success "Hugging Face privacy configured (offline mode: disabled for initial setup)"
 }
 
 setup_environment() {
@@ -160,9 +183,18 @@ build_llama_cpp() {
     fi
     
     cd llama.cpp
+    
+    # Clean any partial builds
+    if [ -d "build" ]; then
+        print_step "Cleaning previous build..."
+        rm -rf build
+    fi
+    
     cmake -B build -DLLAMA_CURL=OFF
     cmake --build build --config Release -j$(nproc) || {
         print_error "Failed to build llama.cpp"
+        print_error "Cleaning build directory for next attempt..."
+        rm -rf build
         exit 1
     }
     
@@ -227,16 +259,28 @@ start_ollama() {
     fi
 }
 
+monitor_temperature() {
+    if command -v vcgencmd &> /dev/null; then
+        temp=$(vcgencmd measure_temp | grep -oP '\d+\.\d+' || echo "0")
+        temp_int=${temp%.*}
+        if [ "$temp_int" -gt 80 ]; then
+            print_warning "Temperature: ${temp}°C - Consider adding cooling"
+        fi
+    fi
+}
+
 setup_helper_script() {
-    print_step "Setting up AI helper script..."
+    print_step "Setting up helper scripts..."
     
-    # The script is already in the scripts directory
+    # Make scripts executable
     chmod +x "$HOME/PiAI/scripts/ai-helper.sh"
+    chmod +x "$HOME/PiAI/scripts/system-tune.sh"
     
-    # Create symlink in home directory for easy access
+    # Create symlinks in home directory for easy access
     ln -sf "$HOME/PiAI/scripts/ai-helper.sh" "$HOME/ai-helper.sh"
+    ln -sf "$HOME/PiAI/scripts/system-tune.sh" "$HOME/system-tune.sh"
     
-    print_success "AI helper script ready"
+    print_success "Helper scripts ready"
 }
 
 print_completion() {
@@ -255,10 +299,13 @@ print_completion() {
     echo "2. Check system status:"
     echo -e "   ${BLUE}~/ai-helper.sh status${NC}"
     echo ""
-    echo "3. Download your first AI model:"
+    echo "3. Run system diagnostics (optional):"
+    echo -e "   ${BLUE}~/system-tune.sh diagnose${NC}"
+    echo ""
+    echo "4. Download your first AI model:"
     echo -e "   ${BLUE}~/ai-helper.sh pull phi3:mini${NC}"
     echo ""
-    echo "4. Start chatting:"
+    echo "5. Start chatting:"
     echo -e "   ${BLUE}~/ai-helper.sh run phi3:mini${NC}"
     echo ""
     echo "📚 Documentation:"
@@ -286,7 +333,9 @@ main() {
     setup_huggingface_privacy
     setup_environment
     build_llama_cpp
+    monitor_temperature
     setup_python_env
+    monitor_temperature
     start_ollama
     setup_helper_script
     

@@ -222,7 +222,9 @@ Congratulations! Your PiAI is ready. Here's what to do next:
 
 ### Installation fails
 - Check internet connection
-- Re-run: `./scripts/install.sh`
+- Ensure 20GB+ free disk space: `df -h ~`
+- If Pi is hot (>75°C), let it cool before retrying
+- Re-run: `./scripts/install.sh` (it will clean up partial builds)
 - See [Smart Factory PiAI Guide](../Smart_Factory_PiAI.md) for manual installation
 
 ### Need help?
