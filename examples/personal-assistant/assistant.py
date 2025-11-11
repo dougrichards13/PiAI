@@ -43,20 +43,21 @@ class LocalAssistant:
     def __init__(self):
         self.user_name = "Doug"
         self.assistant_name = "PiAI"
-        self.wake_word = "hey_pi"  # Using openWakeWord model
+        self.wake_word = "hey_jarvis"  # Using openWakeWord model (alexa, hey_jarvis, hey_mycroft available)
+        self.mic_index = 0  # Default microphone
         
         # Paths
         self.config_file = Path.home() / ".piai_assistant_config.json"
         self.load_config()
         
         # Initialize components
-        print(f"🤖 Initializing {self.assistant_name} for {self.user_name}...")
+        print(f"Initializing {self.assistant_name} for {self.user_name}...")
         self.init_wake_word()
         self.init_speech_recognition()
         self.init_ollama()
         
-        print(f"✅ {self.assistant_name} ready!")
-        print(f"💬 Say '{self.wake_word.replace('_', ' ')}' to wake me up\n")
+        print(f"[OK] {self.assistant_name} ready!")
+        print(f"Say '{self.wake_word.replace('_', ' ')}' to wake me up\n")
     
     def load_config(self):
         """Load or create user configuration"""
@@ -92,11 +93,11 @@ class LocalAssistant:
                 info = self.wake_audio.get_device_info_by_index(i)
                 if 'USB' in info['name'] and info['maxInputChannels'] > 0:
                     mic_index = i
-                    print(f"🎤 Using microphone: {info['name']}")
+                    print(f"[MIC] Using microphone: {info['name']}")
                     break
             
             if mic_index is None:
-                print("⚠️  USB microphone not found, using default")
+                print("[WARN] USB microphone not found, using default")
                 mic_index = 0
             
             self.mic_index = mic_index
@@ -110,19 +111,41 @@ class LocalAssistant:
             )
             
         except Exception as e:
-            print(f"❌ Wake word initialization failed: {e}")
+            print(f"[ERROR] Wake word initialization failed: {e}")
             print("Falling back to keyboard input mode")
             self.wake_model = None
     
     def init_speech_recognition(self):
         """Initialize speech recognition with local Whisper"""
         self.recognizer = sr.Recognizer()
-        self.microphone = sr.Microphone(device_index=self.mic_index)
+        
+        # Try to find USB microphone, fall back to default
+        try:
+            import pyaudio
+            p = pyaudio.PyAudio()
+            mic_index = None
+            for i in range(p.get_device_count()):
+                info = p.get_device_info_by_index(i)
+                if 'USB' in info['name'] and info['maxInputChannels'] > 0:
+                    mic_index = i
+                    break
+            p.terminate()
+            
+            if mic_index is not None:
+                self.microphone = sr.Microphone(device_index=mic_index)
+            else:
+                self.microphone = sr.Microphone()
+        except:
+            # Fallback to default
+            self.microphone = sr.Microphone()
         
         # Adjust for ambient noise
-        print("🎧 Calibrating microphone...")
-        with self.microphone as source:
-            self.recognizer.adjust_for_ambient_noise(source, duration=1)
+        print("[AUDIO] Calibrating microphone...")
+        try:
+            with self.microphone as source:
+                self.recognizer.adjust_for_ambient_noise(source, duration=1)
+        except Exception as e:
+            print(f"[WARN] Microphone calibration skipped: {e}")
     
     def init_ollama(self):
         """Check Ollama is running and model is available"""
@@ -136,15 +159,15 @@ class LocalAssistant:
             elif models:
                 self.model = models[0]['name']
             else:
-                print("⚠️  No Ollama models found. Download one with:")
+                print("[WARN] No Ollama models found. Download one with:")
                 print("  ~/ai-helper.sh pull phi3:mini")
                 self.model = None
                 
             if self.model:
-                print(f"🧠 Using LLM: {self.model}")
+                print(f"[LLM] Using model: {self.model}")
                 
         except Exception as e:
-            print(f"⚠️  Ollama not available: {e}")
+            print(f"[WARN] Ollama not available: {e}")
             print("Start it with: ~/ai-helper.sh start")
             self.model = None
     
@@ -174,14 +197,14 @@ class LocalAssistant:
     
     def listen_for_speech(self):
         """Capture and transcribe speech using local Whisper"""
-        print("🎤 Listening...")
+        print("[LISTEN] Listening...")
         
         try:
             with self.microphone as source:
                 # Listen with timeout
                 audio = self.recognizer.listen(source, timeout=5, phrase_time_limit=10)
             
-            print("🔄 Processing speech...")
+            print("[PROCESS] Processing speech...")
             
             # Use Whisper locally (no cloud API)
             # Note: This requires whisper to be installed
@@ -194,7 +217,7 @@ class LocalAssistant:
         except sr.UnknownValueError:
             return None
         except Exception as e:
-            print(f"❌ Speech recognition error: {e}")
+            print(f"[ERROR] Speech recognition error: {e}")
             return None
     
     def get_weather(self):
@@ -276,7 +299,7 @@ Keep responses brief and conversational."""
     
     def speak(self, text):
         """Speak text using local TTS"""
-        print(f"\n💬 {self.assistant_name}: {text}\n")
+        print(f"\n[{self.assistant_name}]: {text}\n")
         
         try:
             # Try Piper TTS first (best quality)
@@ -295,14 +318,14 @@ Keep responses brief and conversational."""
     
     def run(self):
         """Main assistant loop"""
-        print(f"🎤 {self.assistant_name} is listening...")
+        print(f"[READY] {self.assistant_name} is listening...")
         print(f"Say '{self.wake_word.replace('_', ' ')}' or press Ctrl+C to exit\n")
         
         try:
             while True:
                 # Wait for wake word
                 if self.listen_for_wake_word():
-                    print(f"👋 Wake word detected! Good {datetime.now().strftime('%A')}!")
+                    print(f"[WAKE] Wake word detected! Good {datetime.now().strftime('%A')}!")
                     
                     # Play acknowledgment sound (optional)
                     # subprocess.run(["aplay", "wake.wav"], stdout=subprocess.DEVNULL)
@@ -311,7 +334,7 @@ Keep responses brief and conversational."""
                     user_speech = self.listen_for_speech()
                     
                     if user_speech:
-                        print(f"👤 You said: {user_speech}")
+                        print(f"[YOU]: {user_speech}")
                         
                         # Get AI response
                         response = self.get_response(user_speech)
@@ -319,14 +342,14 @@ Keep responses brief and conversational."""
                         # Speak response
                         self.speak(response)
                     else:
-                        print("❓ Didn't catch that. Try again!\n")
+                        print("[INFO] Didn't catch that. Try again!\n")
                     
-                    print(f"🎤 Listening for wake word...")
+                    print(f"[READY] Listening for wake word...")
                 
                 time.sleep(0.1)  # Small delay to prevent CPU overuse
                 
         except KeyboardInterrupt:
-            print(f"\n👋 Goodbye, {self.user_name}!")
+            print(f"\nGoodbye, {self.user_name}!")
             self.cleanup()
     
     def cleanup(self):
