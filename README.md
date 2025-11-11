@@ -231,22 +231,42 @@ Built something cool? We'd love to see it!
 
 ---
 
-## 🏭 About Smart Factory
+## 🏭 About This Project
 
-[**Smart Factory**](https://smartfactory.io) is pioneering the future of human/machine work with our AI Synthesizer workforce. This project and the other open-book Lab projects demonstrates our expertise in privacy-preserving AI systems and production-ready edge deployments.
+### Smart Factory & Doug Richards
 
-**Our Mission:** Democratize AI technology—making it accessible, private, and practical for real-world applications.
+[**Smart Factory**](https://smartfactory.io) is an AI consulting firm pioneering the future of human/machine collaboration with our AI Synthesizer workforce. We specialize in privacy-preserving AI systems and production-ready edge deployments for visionary leaders building the next generation of enterprise AI.
 
-### Why We Built This
+This project is led by **Doug Richards**, Executive Chairman of Smart Factory, as part of our ongoing commitment to open-source innovation and zero-trust AI development. Doug has been experimenting with AI at the edge for years, and PiAI represents our Lab's approach to making powerful AI accessible while maintaining absolute privacy.
+
+### Partnership with Warp
+
+PiAI was developed in collaboration with [**Warp Terminal**](https://www.warp.dev/), the modern terminal built for the AI era. This partnership exemplifies our shared values:
+
+- **Zero-trust architecture** - All processing stays local, no cloud dependencies
+- **Developer-first tools** - Built by developers, for developers
+- **AI model testing** - Real-world validation of AI tools and workflows
+- **Privacy-focused innovation** - Proving AI can be powerful without compromising privacy
+
+Warp's Agentic Development Environment provided the perfect testing ground for validating PiAI's installation and diagnostic tools, ensuring they work seamlessly in modern development workflows.
+
+### Our Philosophy
 
 We believe AI should be:
 - **Accessible** - Anyone can run powerful AI on affordable hardware
 - **Private** - Your data belongs to you, not in the cloud
 - **Practical** - Real solutions for real problems
-- **Fun** - AI is amazingly powerful and fun to work with and should be available to all levels of technical users
+- **Transparent** - Open-source, documented, and auditable
+- **Fun** - AI is amazingly powerful and should be available to all technical skill levels
 
-**Interested in Smart Factory for your business?**  
-[Visit](https://smartfactory.io) to learn about our enterprise AI solutions.
+### The Lab Projects
+
+PiAI is part of Smart Factory's "open-book Lab" series—experimental projects that demonstrate our technical capabilities while giving back to the developer community. These projects serve dual purposes:
+1. **Testing ground** for AI models, tools, and privacy-first architectures
+2. **Knowledge sharing** for developers who want to build similar systems
+
+**Interested in Smart Factory for your enterprise?**  
+[Visit smartfactory.io](https://smartfactory.io) to learn about our AI consulting and transformation services.
 
 ---
 
@@ -272,6 +292,7 @@ We believe AI should be:
 
 ### Acknowledgments
 
+- **Warp Terminal** - Partnership and testing environment
 - **Raspberry Pi Foundation** - Amazing hardware
 - **Ollama Team** - Making AI accessible
 - **llama.cpp Contributors** - Incredible optimization
