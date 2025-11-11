@@ -12,6 +12,41 @@
 
 ---
 
+## 🆕 What's New in v0.14 (Latest Release)
+
+**Released:** November 2025 | **Status:** Beta - Validated on Pi 5 (8GB)
+
+This release marks the first validated installation on Raspberry Pi 5 with significant enhancements to installation reliability and system diagnostics.
+
+### Key Improvements
+
+✨ **New System Diagnostic Tool** - `system-tune.sh`
+- Full system diagnostics and health checks
+- Performance optimization (CPU governor, GPU memory)
+- Integrated benchmarking tools
+- Run with: `~/system-tune.sh diagnose`
+
+🛡️ **Enhanced Installation Safety**
+- **Disk space check** - Validates 20GB minimum before starting
+- **Temperature monitoring** - Warns if system is hot (>75°C) before install
+- **Smart error recovery** - Automatically cleans partial builds if llama.cpp fails
+- **Better progress tracking** - Temperature checks during intensive operations
+
+🔧 **Configuration Improvements**
+- HuggingFace offline mode now **disabled by default** (allows initial model downloads)
+- Clear instructions in config files for enabling full offline mode later
+- Improved error messages throughout installation
+
+📋 **Testing Status**
+- ✅ Validated on Raspberry Pi 5 (8GB RAM) with Hailo AI HAT+
+- ✅ All components install successfully (Ollama, llama.cpp, PyTorch stack)
+- ✅ System runs stable at 80-85°C during installation
+- ✅ Helper scripts functional and working
+
+👉 **[View Full Release Notes](RELEASE_NOTES_v0.14.md)** | **[Download v0.14](https://github.com/dougrichards13/PiAI/releases/tag/v0.14)**
+
+---
+
 ## 🎯 What is PiAI?
 
 **Smart Factory PiAI** is a comprehensive, privacy-first AI development environment for the Raspberry Pi 5. We've "resurfaced" the Pi—optimizing it specifically for running, experimenting with, and fine-tuning AI models entirely on-device.
@@ -220,7 +255,7 @@ We believe AI should be:
 **Project Author:** Doug Richards, Executive Chairman, Smart Factory  
 **License:** MIT (free for any use)  
 **Version:** 0.14 (beta) 
-**Last Updated:** November 2025
+**Last Updated:** November 11, 2025
 
 ### Changelog
 
