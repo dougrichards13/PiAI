@@ -1,0 +1,19 @@
+# PiAI Personal Assistant Dependencies
+# All packages support offline/local operation
+
+# Audio processing
+pyaudio>=0.2.13
+numpy>=1.24.0
+
+# Wake word detection (100% local, open source)
+openwakeword>=0.5.1
+
+# Speech recognition with local Whisper
+SpeechRecognition>=3.10.0
+openai-whisper>=20231117
+
+# HTTP requests for Ollama
+requests>=2.31.0
+
+# Optional: Better audio file support
+pydub>=0.25.1
